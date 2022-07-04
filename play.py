@@ -10,7 +10,7 @@ from getFeatures import getFeatures
 
 def play(w, gridx, gridy, M, N, A, check, eps):
 
-    alpha = 0.001
+    alpha = 0.01
     env = flappy_bird_gym.make("FlappyBird-v0")
 
     obs = env.reset()
