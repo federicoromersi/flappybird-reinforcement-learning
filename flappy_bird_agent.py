@@ -107,14 +107,7 @@ class FlappyBirdAgent():
             self.w = self.w + self.alpha * delta * z
             s = sp
             action = ap
-
-            if self.eps == 0:
-                self.env.render()
-                time.sleep(1 / 200)
-            
-            
-
-
+                  
 
     
     def evaluate(self):
@@ -124,15 +117,13 @@ class FlappyBirdAgent():
         s, reward, done, info = self.env.step(action)
         while (not done):
 
-            state = self.TC.getFeatures(s, action)
-
             sp, reward, done, info = self.env.step(action)
 
             q = np.zeros((self.A, 1))
             for a in range(0, self.A):
                 w_tran = np.transpose(self.w)
-                state = self.TC.getFeatures(s, a)
-                q[a] = np.dot(w_tran, state)
+                statep = self.TC.getFeatures(sp, a)
+                q[a] = np.dot(w_tran, statep)
             ap = np.argmax(q)
 
             s = sp
@@ -143,14 +134,9 @@ class FlappyBirdAgent():
 
     
     def train(self):
-        if self.eps == 0:
+        for ind in range(0, self.nEpisodes):
             self.runET()
-        else:
-            for ind in range(0, self.nEpisodes):
-                self.runET()
-                save('w.npy', self.w)
-
-
+            save('w.npy', self.w)
         
      
 

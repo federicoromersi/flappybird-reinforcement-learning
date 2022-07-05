@@ -18,17 +18,11 @@ A = 2
 
 nEpisodes = 5000
 alpha = 0.001
-eps = 0.1
+eps = 0.01
 
 
 if __name__ == "__main__":
     agent = FlappyBirdAgent(nEpisodes, alpha, eps, lbx, ubx, lby, uby, M, N, A)
     for i in range(0, 1000):
-        agent.eps = 0
-        #agent.evaluate()
+        agent.evaluate()
         agent.train()
-
-        agent.eps = 0.01
-        agent.train()
-        print(agent.w)
-
