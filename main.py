@@ -7,11 +7,6 @@ lby = -1
 uby = 1
 
 
-#lbx = 0.0
-#ubx = 2
-#lby = -0.6
-#uby = 1
-
 M = 18  # cella 10x10
 N = 4   # numero di griglie per fare l'offset
 A = 2
