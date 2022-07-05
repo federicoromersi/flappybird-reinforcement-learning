@@ -1,6 +1,7 @@
 import numpy as np
 from build_tiles import build_tiles
 from play import play
+from playRBF import playRBF
 import numpy as np
 from numpy import save
 from numpy import load
@@ -15,7 +16,7 @@ def main_linear_tiles():
     lby = -0.6
     uby = 1
 
-    M = 10  # cella 10x10
+    M = 8 # cella 10x10
     N = 4   # numero di griglie per fare l'offset
 
     A = 2   # numero di azioni possibili
@@ -36,14 +37,16 @@ def main_linear_tiles():
         w = np.zeros((d, 1))
 
 
-    nEpisodes = 200000
+    nEpisodes = 1000000
 
-    eps = 0.1
+    eps = 0.01
     for ind in range(0, nEpisodes):
-        if ind%3000 == 0:
+        if ind%1000 == 0:
             w = play(w, gridx, gridy, M, N, A, 1, 0)
+            #w = playRBF(w, gridx, gridy, M, N, A, 1, 0)
         else:
             w = play(w, gridx, gridy, M, N, A, 0, eps)
+            #w = playRBF(w, gridx, gridy, M, N, A, 0, eps)
         
         save('w.npy', w)
 

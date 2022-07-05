@@ -20,8 +20,8 @@ def build_tiles(lbx, ubx, lby, uby, M, N):
 
     # creazione griglie con offset
     for ind in range(0, N):
-        gridx[ind, :] = TX + off[0]*dx/N*ind
-        gridy[ind, :] = TY + off[1]*dy/N*ind
+        gridx[ind, :] = TX + off[0]*dx*ind/N
+        gridy[ind, :] = TY + off[1]*dy*ind/N
 
 
     return [gridx, gridy]
