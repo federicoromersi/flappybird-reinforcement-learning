@@ -100,9 +100,9 @@ class FlappyBirdAgent():
             else:
                 ap = self.epsGreedy(sp)   # scegli azione successiva
                 statep = self.TC.getFeatures(sp, ap)  # vai allo stato successivo
-                delta = score + 0.001 + np.dot(np.transpose(self.w), statep) - np.dot(np.transpose(self.w), state)
+                delta = reward + np.dot(np.transpose(self.w), statep) - np.dot(np.transpose(self.w), state)
 
-            #print(delta)
+    
             z = self.lamb * z + state
             self.w = self.w + self.alpha * delta * z
             s = sp
