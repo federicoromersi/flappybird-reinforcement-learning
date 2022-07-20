@@ -5,6 +5,8 @@ from functions import find
 import os.path
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+import matplotlib.patches as patches
+
 
 
 
@@ -17,8 +19,8 @@ class tileCoding():
         self.M = M
         self.N = N
         self.A = A
-        self.gridx = np.zeros((M, M))
-        self.gridy = np.zeros((M, M))
+        self.gridx = 0
+        self.gridy = 0
         self.d = self.A * self.N * self.M * self.M  # dimensione spazio di stato lineare
 
 
@@ -27,11 +29,13 @@ class tileCoding():
         offset = np.array([1, 3])
         #offset = offset/np.amax(offset)
 
-        dx = (self.ubx - self.lbx)/self.M # divido lo spazio di stato in M celle lungo x
-        TX =  np.arange(self.lbx - dx, self.ubx, dx)
+        dx = (self.ubx - self.lbx)/(self.M-1) 
+        #TX =  np.arange(self.lbx - dx, self.ubx, dx) # divido lo spazio di stato in M celle lungo x
+        TX = np.linspace(self.lbx - dx, self.ubx, self.M)
+        dy = (self.uby - self.lby)/(self.M-1) 
+        #TY =  np.arange(self.lby - 3*dy, self.uby, dy) # divido lo spazio di stato in M celle lungo y
+        TY = np.linspace(self.lby - 3*dy, self.uby, self.M)
 
-        dy = (self.uby - self.lby)/self.M # divido lo spazio di stato in M celle lungo y
-        TY =  np.arange(self.lby - dy, self.uby, dy)
 
         print(len(TX))
         print(len(TY))
@@ -58,6 +62,9 @@ class tileCoding():
             xx = self.gridx[ind, :]  # prendo la componente x della griglia ind-esima
             yy = self.gridy[ind, :]  # prendo la componente y della griglia ind-esima
 
+            #print(s)
+            #print(xx)
+            #print(yy)
             # trovo gli indici dell'elemento di stato s
             ix = find(s[0], xx)
             iy = find(s[1], yy)
@@ -68,17 +75,6 @@ class tileCoding():
 
         return state
 
-    
-    def getW(self):
-
-        if os.path.exists('w.npy'):
-            print ("loading w...")
-            w = load('w.npy')
-        else:
-            print ("creating w...")
-            w = np.zeros((self.d, 1))
-
-        return w
 
     
     def draw_tiles(self):
@@ -94,6 +90,10 @@ class tileCoding():
             for y in self.gridy[ind]:
                 l = ax.axhline(y=y, color=colors[ind % len(colors)], linestyle=linestyles[ind % len(linestyles)], label=ind)
             legend_lines.append(l)
+        height = self.uby-self.lby
+        width = self.ubx-self.lbx
+        rect = patches.Rectangle((self.lbx, self.lby), width, height, linewidth=1, edgecolor='r', facecolor='grey')
+        ax.add_patch(rect)
         #ax.grid('off')
         ax.legend(legend_lines, ["Tiling #{}".format(t) for t in range(len(legend_lines))], facecolor='white', framealpha=0.9)
         ax.set_title("Tilings")
