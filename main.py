@@ -13,7 +13,7 @@ N = 4  # numero di griglie per fare l'offset
 A = 2
 
 nEpisodes = 500
-alpha = 0.00001
+alpha = 0.001
 eps = 0.01
 
 

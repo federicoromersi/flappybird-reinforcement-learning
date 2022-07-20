@@ -109,13 +109,10 @@ class FlappyBirdAgent():
                 pipeReward = 0
 
             if done:
-                R =  -10      #- self.avgReward
+                R =  -10      # - self.avgReward
             else:
                 R =  pipeReward*10 + 0.01     # - self.avgReward
 
-            #self.avgReward = self.avgReward + 1/self.nIters * (R - self.avgReward)
-
-            #print(sp[0])
 
             if done:
                 delta = R - np.dot(np.transpose(self.w), state)
@@ -125,8 +122,7 @@ class FlappyBirdAgent():
                 statep = self.TC.getFeatures(sp, ap)  # vai allo stato successivo
                 delta = R + np.dot(np.transpose(self.w), statep) - np.dot(np.transpose(self.w), state)
 
-            self.avgReward = self.avgReward + 0.000*delta
-            #print(self.w.T @ self.w )
+            self.avgReward = self.avgReward + 0.001*delta
 
             z = self.lamb * z + state
             self.w = self.w + self.alpha * delta * z
